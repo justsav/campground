@@ -16,6 +16,16 @@ def campsite_detail(request, campsite_id):
     serialized_campsite = CampsiteSerializer(campsite).campsite_detail
     return JsonResponse(data=serialized_campsite, status=200)
 
+@csrf_exempt
+def edit_campsite(request, campsite_id):
+    data = json.load(request)
+    campsite = Campsite.objects.get(id=campsite_id)
+    if request.method == 'POST':
+        form = CampsiteForm(request.POST, instance=campsite)
+        if form.is_valid():
+            campsite = form.save(commit=True)
+            serialized_campsite = CampsiteSerializer(campsite).campsite_detail
+            return JsonResponse(data={'success': 'you have edited your campsite', 'campsite': serialized_campsite}, status=200)
 
 ### RESERVATIONS ###
 def reservation_list(request):
@@ -32,18 +42,8 @@ def reservation_detail(request, reservation_id):
 def new_reservation(request):
     data = json.load(request)
     if request.method == "POST":
-        form = ReservationForm(data) #data doesnt work
+        form = ReservationForm(data)
         if form.is_valid():
             reservation = form.save(commit=True)
             serialized_reservation = ReservationSerializer(reservation).reservation_detail
             return JsonResponse(data=serialized_reservation, status=200)
-
-@csrf_exempt
-def edit_reservation(request, reservation_id):
-    reservation = Reservation.objects.get(id=reservation_id)
-    if request.method == 'POST':
-        form = ReservationForm(request.POST, instance=reservation)
-        if form.is_valid():
-            reservation = form.save(commit=True)
-            serialized_reservation = ReservationSerializer(reservation).reservation_detail
-            return JsonResponse(data={'success': 'you have edited your reservation', 'reservation': serialized_reservation}, status=200)

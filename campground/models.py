@@ -17,10 +17,10 @@ class Campsite(models.Model):
 
 class Reservation(models.Model):
     campsite = models.ForeignKey('Campsite', on_delete=models.CASCADE, related_name='campsites')
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50, default='pending')
     start_date = models.CharField(max_length=50)
     end_date = models.CharField(max_length=50)
-    cost_total = models.IntegerField()
+    cost_total = models.IntegerField(default=0)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     street_address = models.CharField(max_length=50)
