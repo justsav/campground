@@ -20,6 +20,7 @@ class Reservation(models.Model):
     status = models.CharField(max_length=50, default='pending')
     start_date = models.CharField(max_length=50)
     end_date = models.CharField(max_length=50)
+    date_range = models.CharField(max_length=255)
     cost_total = models.IntegerField(default=0)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
